@@ -7,6 +7,6 @@ set(MYSQLCPPCONN_DIR "/home/sakuno/RequiredLibrarys/mysql-connector-c++-8.0.31-l
 
 add_executable(StuGPAManager main.cpp Student.cpp Student.h CStudent.cpp CStudent.h FStudent.cpp FStudent.h Report.cpp Report.h GStudent.cpp GStudent.h)
 
-link_directories(StuGPAManager ${MYSQLCPPCONN_DIR}/include)
+target_include_directories(StuGPAManager PRIVATE ${MYSQLCPPCONN_DIR}/include/jdbc)
 
-target_link_libraries(StuGPAManager PRIVATE ${MYSQLCPPCONN_DIR}/lib64/libmysqlcppconn8.so)
+target_link_libraries(StuGPAManager ${MYSQLCPPCONN_DIR}/lib64/libmysqlcppconn.so)
