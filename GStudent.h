@@ -12,7 +12,7 @@
 class GStudent : public Student {
 public:
     GStudent();
-    explicit GStudent(ScoreMap sc);
+    GStudent(string id, string n, int a, char s, ScoreMap sc);
     float get_point() override;
     friend ostream& operator<<(ostream& os, GStudent& gs);
 };

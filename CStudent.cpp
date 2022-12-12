@@ -24,7 +24,5 @@ CStudent::CStudent() {
     type = COLLEGE;
 }
 
-CStudent::CStudent(ScoreMap sc):
-    Student(std::move(sc)){
-    type = COLLEGE;
-}
+CStudent::CStudent(string id, string n, int a, char s, ScoreMap sc) :
+    Student(std::move(id), std::move(n), a, s, COLLEGE, std::move(sc)) {}

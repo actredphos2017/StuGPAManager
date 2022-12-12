@@ -6,16 +6,37 @@
 #include <utility>
 #include "Student.h"
 
-bool Student::operator==(const Student &stu) {
+bool Student::operator==(const Student &stu) const {
     return stuID == stu.stuID &&
            name == stu.name &&
            age == stu.age &&
            sex == stu.sex;
 }
 
-Student::Student(ScoreMap sc):
-    scores(std::move(sc)){
+Student::Student() = default;
 
+Student::Student(const Student &stu) {
+    name = stu.name;
+    stuID = stu.stuID;
+    age = stu.age;
+    sex = stu.sex;
+    scores = stu.scores;
+    type = stu.type;
 }
 
-Student::Student() {}
+void Student::operator=(const Student &stu) {
+    name = stu.name;
+    stuID = stu.stuID;
+    age = stu.age;
+    sex = stu.sex;
+    scores = stu.scores;
+    type = stu.type;
+}
+
+Student::Student(string id, string n, int a, char s, StudentType t, ScoreMap sc):
+    stuID(std::move(id)),
+    name(std::move(n)),
+    age(a),
+    sex(s),
+    type(t),
+    scores(std::move(sc)){}

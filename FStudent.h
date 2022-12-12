@@ -12,7 +12,7 @@
 class FStudent : public Student{
 public:
     FStudent();
-    explicit FStudent(ScoreMap sc);
+    FStudent(string id, string n, int a, char s, ScoreMap sc);
     float get_point() override;
     friend ostream& operator<<(ostream& os, FStudent& cs);
 };

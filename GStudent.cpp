@@ -26,7 +26,5 @@ GStudent::GStudent() {
     type = GRADUATE;
 }
 
-GStudent::GStudent(ScoreMap sc) :
-    Student(std::move(sc)){
-    type = GRADUATE;
-}
+GStudent::GStudent(string id, string n, int a, char s, ScoreMap sc) :
+    Student(std::move(id), std::move(n), a, s, GRADUATE, std::move(sc)) {}

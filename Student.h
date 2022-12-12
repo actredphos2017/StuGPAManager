@@ -17,7 +17,7 @@ class Student {
 public:
     string stuID;
     string name;
-    string age;
+    int age;
     char sex{};
     StudentType type{};
     ScoreMap scores;
@@ -25,8 +25,10 @@ public:
 public:
     virtual float get_point() = 0;
     Student();
-    explicit Student(ScoreMap sc);
-    bool operator==(const Student& stu);
+    Student(string id, string n, int a, char s, StudentType t, ScoreMap sc);
+    Student(const Student& stu);
+    bool operator==(const Student& stu) const;
+    void operator=(const Student& stu);
 };
 
 

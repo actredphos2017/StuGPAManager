@@ -24,7 +24,5 @@ FStudent::FStudent() {
     type = FOREIGN;
 }
 
-FStudent::FStudent(ScoreMap sc) :
-    Student(std::move(sc)) {
-    type = FOREIGN;
-}
+FStudent::FStudent(string id, string n, int a, char s, ScoreMap sc):
+    Student(std::move(id), std::move(n), a, s, FOREIGN, std::move(sc)){}
