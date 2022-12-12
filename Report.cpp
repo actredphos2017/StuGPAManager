@@ -88,3 +88,7 @@ void Report::read(istream &is) {
         students.push_back(stu);
     }
 }
+
+int Report::size() {
+    return students.size();
+}

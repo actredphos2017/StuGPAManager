@@ -19,7 +19,7 @@
 using namespace std;
 
 class Report {
-private:
+public:
     list<Student*> students;
 
 public:
@@ -36,6 +36,7 @@ public:
 
     void read(istream& is);
     void write(ostream& os);
+    int size();
 
     friend istream& operator>>(istream& os, Report& re);
 };
