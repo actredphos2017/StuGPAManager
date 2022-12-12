@@ -7,14 +7,12 @@
 
 
 #include "Student.h"
+#define FOREIGN 2
 
 class FStudent : public Student{
 public:
-    float chinese;
-    float math;
-    float IT;
-
-public:
+    FStudent();
+    explicit FStudent(ScoreMap sc);
     float get_point() override;
     friend ostream& operator<<(ostream& os, FStudent& cs);
 };

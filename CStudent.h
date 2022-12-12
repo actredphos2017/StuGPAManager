@@ -5,16 +5,15 @@
 #ifndef STUGPAMANAGER_CSTUDENT_H
 #define STUGPAMANAGER_CSTUDENT_H
 
+#include <map>
 #include "Student.h"
+#define COLLEGE 1
 
 class CStudent : public Student{
 public:
-    float english;
-    float math;
-    float IT;
-
-public:
-    float get_point();
+    CStudent();
+    explicit CStudent(ScoreMap sc);
+    float get_point() override;
     friend ostream& operator<<(ostream& os, CStudent& cs);
 };
 

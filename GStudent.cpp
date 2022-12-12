@@ -3,14 +3,15 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "GStudent.h"
 
 float GStudent::get_point() {
-    return science * 0.25 +
-           dataStruct * 0.2 +
-           algorithm * 0.2 +
-           english * 0.15 +
-           math * 0.2;
+    return scores["science"] * 0.25 +
+           scores["data_struct"] * 0.2 +
+           scores["algorithm"] * 0.2 +
+           scores["english"] * 0.15 +
+           scores["math"] * 0.2;
 }
 
 ostream& operator<<(ostream& os, GStudent& gs){
@@ -19,4 +20,13 @@ ostream& operator<<(ostream& os, GStudent& gs){
        << "Age:\t" << gs.age << endl
        << "Sex:\t" << gs.sex << endl
        << "Point:\t" << gs.get_point();
+}
+
+GStudent::GStudent() {
+    type = GRADUATE;
+}
+
+GStudent::GStudent(ScoreMap sc) :
+    Student(std::move(sc)){
+    type = GRADUATE;
 }

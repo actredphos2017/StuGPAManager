@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "Student.h"
 
 bool Student::operator==(const Student &stu) {
@@ -11,3 +12,10 @@ bool Student::operator==(const Student &stu) {
            age == stu.age &&
            sex == stu.sex;
 }
+
+Student::Student(ScoreMap sc):
+    scores(std::move(sc)){
+
+}
+
+Student::Student() {}

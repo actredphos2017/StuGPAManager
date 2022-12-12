@@ -7,16 +7,12 @@
 
 
 #include "Student.h"
+#define GRADUATE 3
 
 class GStudent : public Student {
 public:
-    float science;
-    float dataStruct;
-    float algorithm;
-    float english;
-    float math;
-
-public:
+    GStudent();
+    explicit GStudent(ScoreMap sc);
     float get_point() override;
     friend ostream& operator<<(ostream& os, GStudent& gs);
 };
