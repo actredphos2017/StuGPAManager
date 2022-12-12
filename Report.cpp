@@ -31,7 +31,7 @@ void Report::remove(const Report& re) {
         remove(it);
 }
 
-Report &Report::operator[](StudentType _t) {
+Report Report::operator[](StudentType _t) {
     Report res;
     for(auto it : students)
         if(it->type == _t)
@@ -91,4 +91,12 @@ void Report::read(istream &is) {
 
 int Report::size() {
     return students.size();
+}
+
+Report Report::findName(string str) {
+    Report res;
+    for(auto it : students)
+        if(it->name.find(str.c_str()) != it->name.npos)
+            res.students.push_back(it);
+    return res;
 }

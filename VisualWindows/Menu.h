@@ -21,10 +21,14 @@ private:
     Ui::Menu* ui;
 
     QMap<StudentType, QString> stuTypeChangeMap;
+    QMap<QString, StudentType> rStuTypeChangeMap;
 
     QString fileName;
 
-    void flashData();
+    Report* tempRep{};
+    bool showSingleType{false};
+
+
 
     void initItem();
     void initConnect();
@@ -35,9 +39,10 @@ public:
 
 public slots:
     void inputFile();
+    void fleshData();
     void save();
     void outputFile();
-    void searchName();
+    void delData();
 };
 
 

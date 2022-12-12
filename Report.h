@@ -31,11 +31,14 @@ public:
     void remove(Student* stu);
     void remove(const Report& re);
 
-    Report& operator[](StudentType _t);
+    Report operator[](StudentType _t);
     friend ostream& operator<<(ostream& os, Report& re);
 
     void read(istream& is);
     void write(ostream& os);
+
+    Report findName(string str);
+
     int size();
 
     friend istream& operator>>(istream& os, Report& re);

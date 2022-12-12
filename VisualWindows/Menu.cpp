@@ -5,6 +5,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QMenu>
 #include <fstream>
 #include "Menu.h"
 #include "ui_Menu.h"
@@ -61,52 +62,155 @@ Menu::~Menu() {
     delete ui;
 }
 
-void Menu::flashData() {
-    ui->table->setRowCount(rep.size());
+void Menu::fleshData() {
+    delete tempRep;
+    tempRep = nullptr;
+    if(!ui->search->text().isEmpty())
+        tempRep = new Report(rep.findName(ui->search->text().toStdString()));
 
-    QStringList hList;
-    hList << "学号" << "姓名" << "类型" << "性别" << "年龄" << "绩点";
-    ui->table->setColumnCount(hList.size());
-    ui->table->setHorizontalHeaderLabels(hList);
-    for(int i = 0; i < hList.size(); i ++)
-        ui->table->setColumnWidth(i,rep.size());
-    ui->table->horizontalHeader()->setStretchLastSection(true);
-    ui->table->setContextMenuPolicy(Qt::CustomContextMenu);
+    showSingleType = (ui->typeChooose->currentText() != tr("全部"));
 
-    int rowI = 0;
-    for(auto it : rep.students){
-        qDebug() << stuTypeChangeMap[it->type];
-        ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
-        ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
-        ui->table->setItem(rowI, 2, new QTableWidgetItem(stuTypeChangeMap[it->type]));
-        ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
-        ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->age)));
-        ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->get_point())));
+    if(showSingleType){
+        if(tempRep == nullptr)
+            tempRep = new Report(rep[rStuTypeChangeMap[ui->typeChooose->currentText()]]);
+        else
+            tempRep = new Report((*tempRep)[rStuTypeChangeMap[ui->typeChooose->currentText()]]);
     }
+
+    if(!ui->showDetails->isChecked()){
+        Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
+        ui->table->clear();
+
+        ui->table->setRowCount(targetReport->size());
+
+        QStringList hList;
+        hList << "学号" << "姓名" << "类型" << "性别" << "年龄" << "绩点";
+        ui->table->setColumnCount(hList.size());
+        ui->table->setHorizontalHeaderLabels(hList);
+        for(int i = 0; i < hList.size(); i ++)
+            ui->table->setColumnWidth(i,targetReport->size());
+
+        int rowI = 0;
+        for(auto it : targetReport->students){
+            ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
+            ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
+            ui->table->setItem(rowI, 2, new QTableWidgetItem(stuTypeChangeMap[it->type]));
+            ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+            ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->age)));
+            ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->get_point())));
+            rowI ++;
+        }
+    }else{
+        if(showSingleType){
+            if(tempRep == nullptr)
+                return;
+            auto targetReport = tempRep;
+            if(ui->typeChooose->currentText() == tr("本科生")){
+                Report* targetReport = tempRep;
+                ui->table->clear();
+                ui->table->setRowCount(targetReport->size());
+                QStringList hList;
+                hList << "学号" << "姓名" << "性别" << "年龄" << "英语" << "数学" << "计算机";
+                ui->table->setColumnCount(hList.size());
+                ui->table->setHorizontalHeaderLabels(hList);
+                for(int i = 0; i < hList.size(); i ++)
+                    ui->table->setColumnWidth(i,targetReport->size());
+
+                int rowI = 0;
+                for(auto it : targetReport->students){
+                    ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
+                    ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
+                    ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["english"])));
+                    ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["math"])));
+                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["computer"])));
+                    rowI ++;
+                }
+            }else if(ui->typeChooose->currentText() == tr("留学生")){
+                Report* targetReport = tempRep;
+                ui->table->clear();
+                ui->table->setRowCount(targetReport->size());
+                QStringList hList;
+                hList << "学号" << "姓名" << "性别" << "年龄" << "语文" << "数学" << "计算机";
+                ui->table->setColumnCount(hList.size());
+                ui->table->setHorizontalHeaderLabels(hList);
+                for(int i = 0; i < hList.size(); i ++)
+                    ui->table->setColumnWidth(i,targetReport->size());
+
+                int rowI = 0;
+                for(auto it : targetReport->students){
+                    ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
+                    ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
+                    ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["chinese"])));
+                    ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["math"])));
+                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["computer"])));
+                    rowI ++;
+                }
+            }else if(ui->typeChooose->currentText() == tr("研究生")){
+                Report* targetReport = tempRep;
+                ui->table->clear();
+                ui->table->setRowCount(targetReport->size());
+                QStringList hList;
+                hList << "学号" << "姓名" << "性别" << "年龄" << "科学" << "数据" << "算法" << "英语" << "数学";
+                ui->table->setColumnCount(hList.size());
+                ui->table->setHorizontalHeaderLabels(hList);
+                for(int i = 0; i < hList.size(); i ++)
+                    ui->table->setColumnWidth(i,targetReport->size());
+
+                int rowI = 0;
+                for(auto it : targetReport->students){
+                    ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
+                    ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
+                    ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["science"])));
+                    ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["data_struct"])));
+                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["algorithm"])));
+                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["english"])));
+                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["math"])));
+                    rowI ++;
+                }
+            }
+        }else{
+            QMessageBox::information(this, "提示", "需筛选学生类型才能显示具体信息！");
+            return;
+        }
+    }
+
 }
 
 void Menu::initItem() {
     stuTypeChangeMap[COLLEGE] = "本科生";
     stuTypeChangeMap[FOREIGN] = "留学生";
     stuTypeChangeMap[GRADUATE] = "研究生";
+    rStuTypeChangeMap["本科生"] = COLLEGE;
+    rStuTypeChangeMap["留学生"] = FOREIGN;
+    rStuTypeChangeMap["研究生"] = GRADUATE;
 
     ui->typeChooose->addItem(tr("全部"));
     ui->typeChooose->addItem(tr("本科生"));
     ui->typeChooose->addItem(tr("留学生"));
     ui->typeChooose->addItem(tr("研究生"));
 
+    ui->table->horizontalHeader()->setStretchLastSection(true);
+    ui->table->setContextMenuPolicy(Qt::CustomContextMenu);
+
     ui->typeChooose->setCurrentText(tr("全部"));
     ui->search->setPlaceholderText(tr("搜索学生名字……"));
 
-    flashData();
+    fleshData();
 }
 
 void Menu::initConnect() {
     connect(ui->inputBtn, SIGNAL(clicked()), this, SLOT(inputFile()));
     connect(ui->outputBtn, SIGNAL(clicked()), this, SLOT(outputFile()));
-    connect(ui->yesBtn, SIGNAL(clicked()), this, SLOT(searchName()));
+    connect(ui->yesBtn, SIGNAL(clicked()), this, SLOT(fleshData()));
     connect(ui->saveBtn, SIGNAL(clicked()), this, SLOT(save()));
-
+    connect(ui->showDetails, SIGNAL(clicked()), this, SLOT(fleshData()));
+    connect(ui->delBtn, SIGNAL(clicked()), this, SLOT(delData()));
 }
 
 void Menu::inputFile() {
@@ -120,10 +224,12 @@ void Menu::inputFile() {
         QMessageBox::information(this, "提示", "读取失败");
         return;
     }
-    rep.read(iF);
+    Report _rep;
+    _rep.read(iF);
     iF.close();
+    rep.insert(_rep);
     fileName = prepareFile;
-    flashData();
+    fleshData();
 }
 
 void Menu::outputFile() {
@@ -142,7 +248,7 @@ void Menu::outputFile() {
     rep.write(oF);
     oF.close();
     fileName = prepareFile;
-    flashData();
+    fleshData();
 }
 
 void Menu::save() {
@@ -157,7 +263,17 @@ void Menu::save() {
     }
     rep.write(oF);
     oF.close();
-    flashData();
+    fleshData();
 }
 
-void Menu::searchName() {}
+void Menu::delData() {
+    if(ui->table->currentRow() == -1)
+        return;
+    int delLoc = ui->table->currentRow();
+    Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
+    auto it = targetReport->students.begin();
+    while(delLoc --)
+        it ++;
+    rep.remove(*it);
+    fleshData();
+}
