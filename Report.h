@@ -9,36 +9,33 @@
 #include <vector>
 #include <iostream>
 
-#include "cppconn/driver.h"
-#include "cppconn/connection.h"
-#include "cppconn/statement.h"
-#include "cppconn/prepared_statement.h"
+#include "nlohmann/json.hpp"
 
 #include "Student.h"
+#include "GStudent.h"
+#include "CStudent.h"
+#include "FStudent.h"
 
 using namespace std;
-using namespace sql;
 
 class Report {
 private:
-    bool connectSQL = false;
-    Driver*     dri = nullptr;
-    Connection* con = nullptr;
-
-    list<Student*> container;
+    list<Student*> students;
 
 public:
+    Report() = default;
+
     void insert(Student* stu);
-    void insert(Report& re);
+    void insert(const Report& re);
 
-    void remove(Report& re);
-    void remove(const string& condition);
+    void remove(Student* stu);
+    void remove(const Report& re);
 
-    Report& operator[](const string& condition);
+    Report& operator[](StudentType _t);
     friend ostream& operator<<(ostream& os, Report& re);
 
-    bool read(istream& is, ostream& errorOs = cout);
-    bool write(ostream& os, ostream& errorOs = cout);
+    void read(istream& is);
+    void write(ostream& os);
 
     friend istream& operator>>(istream& os, Report& re);
 };
