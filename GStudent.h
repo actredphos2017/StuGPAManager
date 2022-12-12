@@ -10,7 +10,15 @@
 
 class GStudent : public Student {
 public:
+    float science;
+    float dataStruct;
+    float algorithm;
+    float english;
+    float math;
 
+public:
+    float get_point() override;
+    friend ostream& operator<<(ostream& os, GStudent& gs);
 };
 
 

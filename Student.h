@@ -19,6 +19,7 @@ public:
 
 public:
     virtual float get_point() = 0;
+    bool operator==(const Student& stu);
 };
 
 

@@ -15,8 +15,8 @@ public:
     float IT;
 
 public:
-    float get_point();
-    friend ostream& operator<<(ostream& os, const FStudent& cs);
+    float get_point() override;
+    friend ostream& operator<<(ostream& os, FStudent& cs);
 };
 
 

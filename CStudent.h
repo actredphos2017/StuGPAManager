@@ -15,7 +15,7 @@ public:
 
 public:
     float get_point();
-    friend ostream& operator<<(ostream& os, const CStudent& cs);
+    friend ostream& operator<<(ostream& os, CStudent& cs);
 };
 
 
