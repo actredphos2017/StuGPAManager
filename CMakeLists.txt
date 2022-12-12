@@ -17,7 +17,7 @@ find_package(Qt6 COMPONENTS
 
 set(nlohmann_json_DIR "/home/sakuno/RequiredLibrarys/json")
 
-add_executable(StuGPAManager main.cpp Student.cpp Student.h CStudent.cpp CStudent.h FStudent.cpp FStudent.h Report.cpp Report.h GStudent.cpp GStudent.h VisualWindows/Menu.cpp VisualWindows/Menu.h)
+add_executable(StuGPAManager main.cpp Student.cpp Student.h CStudent.cpp CStudent.h FStudent.cpp FStudent.h Report.cpp Report.h GStudent.cpp GStudent.h VisualWindows/Menu.cpp VisualWindows/Menu.h VisualWindows/Menu.ui)
 
 target_link_libraries(StuGPAManager
         Qt::Core
