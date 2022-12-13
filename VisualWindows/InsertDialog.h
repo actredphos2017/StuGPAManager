@@ -8,45 +8,78 @@
 
 #include <QDialog>
 #include <QComboBox>
+#include <QLineEdit>
 #include <QGroupBox>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QLayout>
+#include <QLabel>
+
+#include "../Report.h"
+#include "FStudentScore.h"
+#include "CStudentScore.h"
+#include "GStudentScore.h"
+
+extern Report rep;
 
 class InsertDialog : public QDialog {
+    Q_OBJECT
+
 private:
 
-    QComboBox* typeChoose;
+    QVBoxLayout* mainLayout;
+    QVBoxLayout* insertLayout;
 
+    QLabel* nameTitle;
     QLineEdit* nameLine;
+
+    QLabel* stuIDTitle;
     QLineEdit* stuIDLine;
+
+    QLabel* sexTitle;
     QComboBox* sexBox;
+
+    QLabel* ageTitle;
     QSpinBox* ageBox;
 
-    QGroupBox* scoreInputGroup;
+    QLabel* typeTitle;
+    QComboBox* typeBox;
 
-    QVBoxLayout* CStudentLayout;
-    QLineEdit* csEnglishLine;
-    QLineEdit* csMathLine;
-    QLineEdit* csComputerLine;
+    QWidget* scoreInputGroup;
 
-    QVBoxLayout* FStudentLayout;
-    QLineEdit* fsChineseLine;
-    QLineEdit* fsMathLine;
-    QLineEdit* fsComputerLine;
+    QPushButton* insertScore;
 
-    QVBoxLayout* GStudentLayout;
-    QLineEdit* gsMathLine;
-    QLineEdit* gsScienceLine;
-    QLineEdit* gsDataStructLine;
-    QLineEdit* gsAlgorithmLine;
+    QHBoxLayout* btnLayout;
+    QPushButton* yesBtn;
+    QPushButton* cancelBtn;
 
+    CStudentScore* csDialog;
+    FStudentScore* fsDialog;
+    GStudentScore* gsDialog;
 
+    ScoreMap scores;
+
+    void initUi();
     void initItem();
     void initConnect();
 
+
 public:
 
-    InsertDialog(QWidget* parent = nullptr);
+    explicit InsertDialog(QWidget* parent = nullptr);
+
+signals:
+    void toCS();
+    void toFS();
+    void toGS();
+    void fleshData();
+
+
+public slots:
+    void toInsert();
+    void toInsertScoreMap();
+    void getScoreMap(ScoreMap map);
+    void addStudent();
 
 };
 

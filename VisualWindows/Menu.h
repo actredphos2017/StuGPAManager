@@ -9,6 +9,7 @@
 #include <QLabel>
 
 #include "../Report.h"
+#include "InsertDialog.h"
 
 namespace Ui{
     class Menu;
@@ -25,10 +26,10 @@ private:
 
     QString fileName;
 
+    InsertDialog* insertDialog;
+
     Report* tempRep{};
     bool showSingleType{false};
-
-
 
     void initItem();
     void initConnect();
@@ -44,6 +45,5 @@ public slots:
     void outputFile();
     void delData();
 };
-
 
 #endif //STUGPAMANAGER_MENU_H

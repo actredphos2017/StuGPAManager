@@ -45,6 +45,10 @@ string getFileType(const string& fullDirName){
     return ss.str();
 }
 
+QString getSexName(char c){
+    return (c == 'w' ? "女" : (c == 'm' ? "男" : "未知"));
+}
+
 
 
 
@@ -55,6 +59,9 @@ Menu::Menu(QWidget *parent):
 
     initItem();
     initConnect();
+
+
+
 }
 
 
@@ -77,8 +84,12 @@ void Menu::fleshData() {
             tempRep = new Report((*tempRep)[rStuTypeChangeMap[ui->typeChooose->currentText()]]);
     }
 
+    Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
+
+    ui->status->setText("当前库中共有 " + toQString(targetReport->size()) + " 条数据");
+
     if(!ui->showDetails->isChecked()){
-        Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
+
         ui->table->clear();
 
         ui->table->setRowCount(targetReport->size());
@@ -95,7 +106,7 @@ void Menu::fleshData() {
             ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
             ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
             ui->table->setItem(rowI, 2, new QTableWidgetItem(stuTypeChangeMap[it->type]));
-            ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+            ui->table->setItem(rowI, 3, new QTableWidgetItem(getSexName(it->sex)));
             ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->age)));
             ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->get_point())));
             rowI ++;
@@ -104,9 +115,7 @@ void Menu::fleshData() {
         if(showSingleType){
             if(tempRep == nullptr)
                 return;
-            auto targetReport = tempRep;
             if(ui->typeChooose->currentText() == tr("本科生")){
-                Report* targetReport = tempRep;
                 ui->table->clear();
                 ui->table->setRowCount(targetReport->size());
                 QStringList hList;
@@ -120,7 +129,7 @@ void Menu::fleshData() {
                 for(auto it : targetReport->students){
                     ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
                     ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
-                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(getSexName(it->sex)));
                     ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
                     ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["english"])));
                     ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["math"])));
@@ -128,7 +137,6 @@ void Menu::fleshData() {
                     rowI ++;
                 }
             }else if(ui->typeChooose->currentText() == tr("留学生")){
-                Report* targetReport = tempRep;
                 ui->table->clear();
                 ui->table->setRowCount(targetReport->size());
                 QStringList hList;
@@ -142,7 +150,7 @@ void Menu::fleshData() {
                 for(auto it : targetReport->students){
                     ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
                     ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
-                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(getSexName(it->sex)));
                     ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
                     ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["chinese"])));
                     ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["math"])));
@@ -150,7 +158,6 @@ void Menu::fleshData() {
                     rowI ++;
                 }
             }else if(ui->typeChooose->currentText() == tr("研究生")){
-                Report* targetReport = tempRep;
                 ui->table->clear();
                 ui->table->setRowCount(targetReport->size());
                 QStringList hList;
@@ -164,13 +171,13 @@ void Menu::fleshData() {
                 for(auto it : targetReport->students){
                     ui->table->setItem(rowI, 0, new QTableWidgetItem(it->stuID.c_str()));
                     ui->table->setItem(rowI, 1, new QTableWidgetItem(it->name.c_str()));
-                    ui->table->setItem(rowI, 2, new QTableWidgetItem(toQString(it->sex == 'w' ? "女" : "男")));
+                    ui->table->setItem(rowI, 2, new QTableWidgetItem(getSexName(it->sex)));
                     ui->table->setItem(rowI, 3, new QTableWidgetItem(toQString(it->age)));
                     ui->table->setItem(rowI, 4, new QTableWidgetItem(toQString(it->scores["science"])));
                     ui->table->setItem(rowI, 5, new QTableWidgetItem(toQString(it->scores["data_struct"])));
                     ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["algorithm"])));
-                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["english"])));
-                    ui->table->setItem(rowI, 6, new QTableWidgetItem(toQString(it->scores["math"])));
+                    ui->table->setItem(rowI, 7, new QTableWidgetItem(toQString(it->scores["english"])));
+                    ui->table->setItem(rowI, 8, new QTableWidgetItem(toQString(it->scores["math"])));
                     rowI ++;
                 }
             }
@@ -201,6 +208,8 @@ void Menu::initItem() {
     ui->typeChooose->setCurrentText(tr("全部"));
     ui->search->setPlaceholderText(tr("搜索学生名字……"));
 
+    insertDialog = new InsertDialog(this);
+
     fleshData();
 }
 
@@ -211,6 +220,8 @@ void Menu::initConnect() {
     connect(ui->saveBtn, SIGNAL(clicked()), this, SLOT(save()));
     connect(ui->showDetails, SIGNAL(clicked()), this, SLOT(fleshData()));
     connect(ui->delBtn, SIGNAL(clicked()), this, SLOT(delData()));
+    connect(ui->addBtn, SIGNAL(clicked()), insertDialog, SLOT(toInsert()));
+    connect(insertDialog, SIGNAL(fleshData()), this, SLOT(fleshData()));
 }
 
 void Menu::inputFile() {
