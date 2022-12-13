@@ -53,6 +53,7 @@ void FStudentScore::initUi() {
     mainLayout->addLayout(scoreInputLayout);
     mainLayout->addLayout(btnLayout);
     setLayout(mainLayout);
+    setWindowTitle("留学生成绩");
 }
 
 void FStudentScore::toInsertFStuScore() {

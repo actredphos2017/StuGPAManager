@@ -32,7 +32,6 @@ public:
     void remove(const Report& re);
 
     Report operator[](StudentType _t);
-    friend ostream& operator<<(ostream& os, Report& re);
 
     void read(istream& is);
     void write(ostream& os);
@@ -40,6 +39,8 @@ public:
     Report findName(string str);
 
     int size();
+
+    float advPoint();
 
     friend istream& operator>>(istream& os, Report& re);
 };

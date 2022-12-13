@@ -55,6 +55,7 @@ GStudentScore::GStudentScore(QWidget *parent) {
     initItem();
     initUi();
     initConnect();
+    setWindowTitle("研究生成绩");
 }
 
 void GStudentScore::initUi() {

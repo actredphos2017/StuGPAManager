@@ -100,3 +100,10 @@ Report Report::findName(string str) {
             res.students.push_back(it);
     return res;
 }
+
+float Report::advPoint() {
+    float sum;
+    for(auto it : students)
+        sum += it->get_point();
+    return sum / size();
+}

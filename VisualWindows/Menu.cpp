@@ -60,8 +60,7 @@ Menu::Menu(QWidget *parent):
     initItem();
     initConnect();
 
-
-
+    setWindowTitle("学生成绩管理系统");
 }
 
 
@@ -70,6 +69,7 @@ Menu::~Menu() {
 }
 
 void Menu::fleshData() {
+
     delete tempRep;
     tempRep = nullptr;
     if(!ui->search->text().isEmpty())
@@ -85,6 +85,8 @@ void Menu::fleshData() {
     }
 
     Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
+
+    ui->sumInfo->setText("平均绩点 " + toQString(targetReport->advPoint()));
 
     ui->status->setText("当前库中共有 " + toQString(targetReport->size()) + " 条数据");
 

@@ -45,6 +45,7 @@ CStudentScore::CStudentScore(QWidget *parent) {
     initItem();
     initUi();
     initConnect();
+    setWindowTitle("本科生成绩");
 }
 
 void CStudentScore::initUi() {
