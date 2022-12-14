@@ -16,6 +16,7 @@ float toFloat(T num){
 }
 
 void GStudentScore::initItem() {
+    ScienceTitle = new QLabel("科学");
     DataStructTitle = new QLabel("数据结构");
     AlgorithmTitle = new QLabel("算法");
     MathTitle = new QLabel("数学");
@@ -23,6 +24,7 @@ void GStudentScore::initItem() {
 
     scoreTitleLayout = new QVBoxLayout;
 
+    ScienceLine = new QLineEdit();
     DataStructLine = new QLineEdit();
     AlgorithmLine = new QLineEdit();
     MathLine = new QLineEdit();
@@ -34,11 +36,13 @@ void GStudentScore::initItem() {
     yesBtn = new QPushButton("确定");
     cancelBtn = new QPushButton("取消");
 
+    scoreTitleLayout->addWidget(ScienceTitle);
     scoreTitleLayout->addWidget(DataStructTitle);
     scoreTitleLayout->addWidget(AlgorithmTitle);
     scoreTitleLayout->addWidget(MathTitle);
     scoreTitleLayout->addWidget(EnglishTitle);
 
+    scoreLineLayout->addWidget(ScienceLine);
     scoreLineLayout->addWidget(DataStructLine);
     scoreLineLayout->addWidget(AlgorithmLine);
     scoreLineLayout->addWidget(MathLine);
@@ -77,6 +81,7 @@ void GStudentScore::initConnect() {
 
 void GStudentScore::buildScoreMap() {
     ScoreMap map;
+    map["science"] = toFloat(ScienceLine->text().toStdString());
     map["english"] = toFloat(EnglishLine->text().toStdString());
     map["math"] = toFloat(MathLine->text().toStdString());
     map["data_struct"] = toFloat(DataStructLine->text().toStdString());

@@ -59,7 +59,7 @@ Menu::Menu(QWidget *parent):
 
     initItem();
     initConnect();
-
+    getSave();
     setWindowTitle("学生成绩管理系统");
 }
 
@@ -110,7 +110,7 @@ void Menu::fleshData() {
 
     ui->sumInfo->setText(ss.str().c_str());
 
-    ui->status->setText("当前库中共有 " + toQString(targetReport->size()) + " 条数据");
+    ui->status->setText("当前库中共有 " + toQString(rep.size()) + " 条数据");
 
     if(!ui->showDetails->isChecked()){
 
@@ -310,5 +310,24 @@ void Menu::delData() {
     while(delLoc --)
         it ++;
     rep.remove(*it);
+    fleshData();
+}
+
+void Menu::getSave(){
+    QString prepareFile = QDir::homePath() + "/GPADefaultData.json";
+    if(prepareFile.isEmpty())
+        return;
+    ifstream iF;
+    iF.open(prepareFile.toStdString());
+    if(!iF.good()){
+        iF.close();
+        QMessageBox::information(this, "提示", "预置数据读取失败");
+        return;
+    }
+    Report _rep;
+    _rep.read(iF);
+    iF.close();
+    rep.insert(_rep);
+    fileName = prepareFile;
     fleshData();
 }

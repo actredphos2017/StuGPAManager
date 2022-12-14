@@ -44,6 +44,7 @@ public slots:
     void save();
     void outputFile();
     void delData();
+    void getSave();
 };
 
 #endif //STUGPAMANAGER_MENU_H

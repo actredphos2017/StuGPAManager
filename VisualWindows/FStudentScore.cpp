@@ -68,7 +68,7 @@ void FStudentScore::initConnect() {
 
 void FStudentScore::buildScoreMap() {
     ScoreMap map;
-    map["english"] = toFloat(ChineseLine->text().toStdString());
+    map["chinese"] = toFloat(ChineseLine->text().toStdString());
     map["math"] = toFloat(MathLine->text().toStdString());
     map["computer"] = toFloat(ComputerLine->text().toStdString());
     emit scoreMap(map);

@@ -21,6 +21,9 @@ class GStudentScore : public QDialog {
     QVBoxLayout* scoreTitleLayout;
     QVBoxLayout* scoreLineLayout;
 
+    QLabel* ScienceTitle;
+    QLineEdit* ScienceLine;
+
     QLabel* DataStructTitle;
     QLineEdit* DataStructLine;
 
