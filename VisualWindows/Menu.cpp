@@ -86,7 +86,29 @@ void Menu::fleshData() {
 
     Report* targetReport = (tempRep == nullptr ? &rep : tempRep);
 
-    ui->sumInfo->setText("平均绩点 " + toQString(targetReport->advPoint()));
+    stringstream ss;
+    ss << "平均绩点 ";
+    if(!targetReport->size())
+        ss << "无";
+    else
+        ss << targetReport->advPoint();
+    vector<Student*> highestStu = targetReport->highestPointer();
+    ss << "  最高绩点 ";
+    if(highestStu.empty())
+        ss << "无";
+    else
+        for(auto it : highestStu){
+            stringstream tempSs;
+            tempSs << it->name << ' ' << it->get_point() << "  ";
+            if(tempSs.str().size() + ss.str().size() <= 70)
+                ss << tempSs.str();
+            else{
+                ss << "...";
+                break;
+            }
+        }
+
+    ui->sumInfo->setText(ss.str().c_str());
 
     ui->status->setText("当前库中共有 " + toQString(targetReport->size()) + " 条数据");
 

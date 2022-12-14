@@ -22,6 +22,7 @@ InsertDialog::InsertDialog(QWidget *parent):
     initItem();
     initConnect();
     setWindowTitle("插入学生");
+    setWindowModality(Qt::ApplicationModal);
 }
 
 void InsertDialog::toInsert() {

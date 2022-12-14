@@ -107,3 +107,18 @@ float Report::advPoint() {
         sum += it->get_point();
     return sum / size();
 }
+
+vector<Student*> Report::highestPointer() {
+    vector<Student*> res;
+    for(auto it : students){
+        if(res.empty())
+            res.push_back(it);
+        else if(res[0]->get_point() == it->get_point())
+            res.push_back(it);
+        else if(res[0]->get_point() < it->get_point()){
+            res.clear();
+            res.push_back(it);
+        }
+    }
+    return res;
+}

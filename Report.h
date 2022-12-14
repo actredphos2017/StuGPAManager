@@ -41,8 +41,7 @@ public:
     int size();
 
     float advPoint();
-
-    friend istream& operator>>(istream& os, Report& re);
+    vector<Student*> highestPointer();
 };
 
 

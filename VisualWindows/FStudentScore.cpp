@@ -54,6 +54,7 @@ void FStudentScore::initUi() {
     mainLayout->addLayout(btnLayout);
     setLayout(mainLayout);
     setWindowTitle("留学生成绩");
+    setWindowModality(Qt::ApplicationModal);
 }
 
 void FStudentScore::toInsertFStuScore() {

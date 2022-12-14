@@ -46,6 +46,7 @@ CStudentScore::CStudentScore(QWidget *parent) {
     initUi();
     initConnect();
     setWindowTitle("本科生成绩");
+    setWindowModality(Qt::ApplicationModal);
 }
 
 void CStudentScore::initUi() {
